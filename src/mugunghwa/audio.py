@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import pygame
 
-from .paths import asset
+from .paths import asset, user_dir
 
 SOUND_FILES = {"shot": "gunshot.wav", "beep": "beep.wav", "turn": "turn.wav"}
 CHANT_NAMES = ("chant.wav", "chant.ogg", "chant.mp3")
@@ -26,7 +26,7 @@ LEAD_S, TAIL_S = 0.05, 0.8  # 말 앞에 남길 여백, 말 끝 뒤에 남길 �
 def voice_dirs() -> list[Path]:
     """게임 내장 목소리 + 실행 폴더의 사용자 목소리 폴더 목록 (이름순, 같은 이름이면 사용자 것이 우선)."""
     found: dict[str, Path] = {}
-    for root in (asset("voices"), Path.cwd() / "voices"):
+    for root in (asset("voices"), user_dir() / "voices"):
         if not root.is_dir():
             continue
         for d in sorted(p for p in root.iterdir() if p.is_dir()):

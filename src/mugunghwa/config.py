@@ -6,6 +6,7 @@ from dataclasses import dataclass, field, fields, replace
 from pathlib import Path
 
 from .judge import JudgeParams
+from .paths import user_dir
 
 @dataclass(frozen=True)
 class Rules:
@@ -76,18 +77,18 @@ class GameConfig:
 SAVED_IN_SETTINGS = ("camera_index", "voice", "difficulty", "time_limit_s")
 
 
-def save_config(cfg: GameConfig, path: str | Path = "config.json",
+def save_config(cfg: GameConfig, path: str | Path | None = None,
                 keys: tuple[str, ...] = SAVED_IN_SETTINGS) -> None:
     """설정 화면에서 바꾼 값만 config.json 에 덮어쓴다 (사용자가 직접 적은 다른 값은 유지)."""
-    p = Path(path)
+    p = Path(path) if path else user_dir() / "config.json"
     data = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
     data.update({k: getattr(cfg, k) for k in keys})
     p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def load_config(path: str | Path = "config.json") -> GameConfig:
+def load_config(path: str | Path | None = None) -> GameConfig:
     cfg = GameConfig()
-    p = Path(path)
+    p = Path(path) if path else user_dir() / "config.json"
     if p.exists():
         data = json.loads(p.read_text(encoding="utf-8"))
         known = {f.name for f in fields(GameConfig)}

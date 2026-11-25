@@ -1,7 +1,14 @@
-"""진입점: 스레드 시작 + pygame 메인 루프."""
+"""진입점: 스레드 시작 + pygame 메인 루프.
+
+  python -m mugunghwa             게임 실행
+  python -m mugunghwa --selftest  화면·카메라 없이 모델·목소리·폰트를 불러와 보고 끝낸다 (exe 빌드 점검용)
+"""
 from __future__ import annotations
 
+import os
+import sys
 import time
+import traceback
 from dataclasses import replace
 
 import pygame
@@ -12,6 +19,7 @@ from .camera import Camera
 from .config import load_config
 from .detector import DetectorThread, YoloPoseDetector
 from .game import LOBBY, RESULT, TITLE, Game
+from .paths import user_dir
 from .render import Renderer
 from .settings import SettingsMenu
 
@@ -24,7 +32,44 @@ def _set_params(game: Game, params) -> None:
         pl.judge.params = params
 
 
+def selftest() -> int:
+    """빌드한 exe에 필요한 파일·모듈이 다 들어갔는지 확인한다. 성공하면 0."""
+    os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
+    os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
+    import numpy as np
+
+    cfg = load_config()
+    pygame.mixer.pre_init(44100, -16, 2, 512)
+    pygame.init()
+    pygame.display.set_mode((64, 64))
+    audio = Audio(cfg.chant_speeds, cfg.voice)
+    renderer = Renderer()
+    detector = YoloPoseDetector(cfg.model, cfg.imgsz, cfg.det_conf, "cpu")
+    persons = detector.detect(np.zeros((480, 640, 3), dtype=np.uint8))
+    print(f"목소리: {list(audio.voices)} (선택 {audio.selected})")
+    print(f"폰트: {renderer._path}")
+    print(f"술래 인형: {type(renderer.doll).__name__}")
+    print(f"인식 모델: 정상 (빈 화면에서 {len(persons)}명)")
+    ok = bool(audio.voices) and renderer._path is not None
+    print("자체 점검 통과" if ok else "자체 점검 실패")
+    pygame.quit()
+    return 0 if ok else 1
+
+
 def main() -> None:
+    if "--selftest" in sys.argv:
+        sys.exit(selftest())
+    try:
+        run()
+    except Exception:
+        # 창 모드 exe는 콘솔이 없으므로 오류를 파일로 남긴다
+        log = user_dir() / "error.log"
+        log.write_text(traceback.format_exc(), encoding="utf-8")
+        print(f"오류가 발생했습니다. 자세한 내용: {log}", file=sys.stderr)
+        raise
+
+
+def run() -> None:
     cfg = load_config()
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()

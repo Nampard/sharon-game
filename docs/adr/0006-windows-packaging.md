@@ -1,6 +1,6 @@
 # ADR-0006: Windows 배포는 PyInstaller 폴더형 빌드를 Windows에서 만든다
 
-- 상태: 제안됨 (Proposed)
+- 상태: 대체됨 (Superseded by ADR-0009)
 - 날짜: 2026-11-25
 
 ## 배경

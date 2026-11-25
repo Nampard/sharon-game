@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 /opt/homebrew/bin/python3.12 -m venv .venv && .venv/bin/pip install -e '.[dev]'   # 설치 (Python 3.11~3.12)
 .venv/bin/python -m mugunghwa                                # 실행 (카메라 권한 필요)
+.venv/bin/python -m mugunghwa --selftest                     # 화면·카메라 없이 모델·목소리·폰트 로딩 점검
 .venv/bin/pytest -q                                          # 전체 테스트
 .venv/bin/pytest tests/test_judge.py::test_arm_move_eliminated   # 단일 테스트
 .venv/bin/python tools/make_sounds.py                        # 임시 사운드 재생성 (구호 TTS는 macOS 전용)
@@ -44,7 +45,7 @@ tools/dotnet.sh run --project tools/voicefx                  # NAudio(C#) 목소
 
 - 개인정보: 카메라 영상은 메모리에서만 처리하고 저장·전송하지 않는다. `mugunghwa/__init__.py` 가 ultralytics import 전에 `YOLO_OFFLINE=1` 을 설정해 익명 통계 전송·온라인 점검을 끈다 — ultralytics를 이 패키지 밖에서 먼저 import 하지 말 것. 모델 파일은 `assets/models/` 에 있어야 한다(오프라인이라 자동 다운로드 안 됨).
 
-- Windows exe는 Windows에서만 빌드 가능 (PyInstaller `--onedir`, ADR-0006). 카메라 백엔드는 Windows `CAP_DSHOW`, macOS `CAP_AVFOUNDATION`.
+- Windows 배포는 exe가 아니라 `play.bat` 원클릭 방식(ADR-0009): GitHub 저장소 zip을 받아 bat을 실행하면 폴더 안 `.venv` 에 CPU용 torch와 의존성을 설치하고 `pythonw -m mugunghwa` 로 켠다. bat은 CRLF·UTF-8(`.gitattributes`), 첫 줄 다음에 `chcp 65001`. `config.json`·`voices/`·`error.log` 위치는 `paths.user_dir()`. 카메라 백엔드는 Windows `CAP_DSHOW`, macOS `CAP_AVFOUNDATION`.
 - 드라마의 인형·음성·음악·로고는 넣지 않는다 (ADR-0007). 에셋 추가 시 `assets/CREDITS.md` 갱신.
 - 판정 임계값·시간 값은 코드에 박지 말고 `GameConfig`/`DIFFICULTIES` 에 둔다.
 - 승인된 ADR을 뒤집을 때는 새 ADR을 추가하고 `docs/adr/README.md` 표를 갱신한다.

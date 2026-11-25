@@ -13,3 +13,11 @@ def project_root() -> Path:
 
 def asset(*parts: str) -> Path:
     return project_root().joinpath("assets", *parts)
+
+
+def user_dir() -> Path:
+    """사용자가 고치는 파일(config.json, voices/)의 위치.
+    exe로 실행하면 exe가 있는 폴더(어디서 더블클릭하든 같은 곳), 개발 중에는 현재 폴더."""
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path.cwd()
