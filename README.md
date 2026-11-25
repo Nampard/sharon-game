@@ -96,7 +96,7 @@ Windows에서는 `.venv\Scripts\python -m mugunghwa` 로 실행합니다.
 
 - 직접 녹음: `voices/<이름>/chant.wav` 에 "무궁화 꽃이 피었습니다" 녹음을 넣습니다 (아래 "목소리 추가하기").
 - macOS 기계음 만들기: `.venv/bin/python tools/make_sounds.py` 를 실행하면 macOS 내장 음성으로
-  `assets/voices/기계음/chant.wav` 를 만듭니다. macOS 내장 음성은 Apple 약관상 개인적인 용도로만 쓰는 것이 안전해서
+  `assets/voices/robot/chant.wav` 를 만듭니다. macOS 내장 음성은 Apple 약관상 개인적인 용도로만 쓰는 것이 안전해서
   저장소와 배포본에는 넣지 않습니다.
 macOS에서 처음 실행하면 카메라 권한을 물어봅니다.
 

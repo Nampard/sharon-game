@@ -1,7 +1,7 @@
 """임시 사운드 생성기 (ADR-0007: 직접 만든 자산).
 
 - gunshot/beep/turn: numpy로 합성 (모든 OS)
-- chant: macOS `say` 한국어 음성 → assets/voices/기계음/chant.wav (macOS 전용, 다른 OS에서는 건너뜀)
+- chant: macOS `say` 한국어 음성 → assets/voices/robot/chant.wav (macOS 전용, 다른 OS에서는 건너뜀)
 
 사용: .venv/bin/python tools/make_sounds.py [--voice Yuna]
 """
@@ -104,7 +104,7 @@ def chant(voice: str) -> bool:
             fade = np.minimum(1, np.minimum(np.arange(len(seg)), np.arange(len(seg))[::-1]) / 300)
             parts += [seg * fade, np.zeros(int(gap * SR))]
     y = _hall(np.concatenate(parts))
-    voice_dir = OUT.parent / "voices" / "기계음"
+    voice_dir = OUT.parent / "voices" / "robot"  # 화면 이름 "기계음"은 voice.json
     voice_dir.mkdir(parents=True, exist_ok=True)
     write_wav(voice_dir / "chant.wav", 0.9 * y / np.abs(y).max())
     return True
