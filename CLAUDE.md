@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 .venv/bin/pytest -q                                          # 전체 테스트
 .venv/bin/pytest tests/test_judge.py::test_arm_move_eliminated   # 단일 테스트
 .venv/bin/python tools/make_sounds.py                        # 임시 사운드 재생성 (구호 TTS는 macOS 전용)
+tools/dotnet.sh run --project tools/voicefx                  # NAudio(C#) 목소리 변조 도구 — .NET SDK는 프로젝트 안 .dotnet/ 에만 설치됨
 ```
 
 설정은 실행 폴더의 `config.json` (예시: `config.example.json`, 필드는 `src/mugunghwa/config.py` 의 `GameConfig`). 게임 안 설정 화면(제목에서 S)이 카메라·목소리·난이도·제한 시간을 바꾸고 이 파일에 저장한다(ADR-0008).
@@ -38,6 +39,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 에셋 접근은 반드시 `paths.asset()` 사용 (PyInstaller `sys._MEIPASS` 대응). 모델은 `assets/models/yolo11n-pose.pt`.
 
 ## 주의
+
+- .NET은 반드시 `tools/dotnet.sh` 로 실행한다 (SDK·NuGet 캐시·CLI 설정을 프로젝트 폴더 안에 두고 .NET 사용 통계를 끔). 시스템 `dotnet` 을 설치하거나 쓰지 않는다. NAudio(MIT)는 녹음 파일을 변조해 `voices/` 에 넣는 오프라인 도구용이며 게임(파이썬)에는 들어가지 않는다. Mac에는 NAudio 재생·녹음 백엔드가 없으므로 파일 처리만 한다.
 
 - 개인정보: 카메라 영상은 메모리에서만 처리하고 저장·전송하지 않는다. `mugunghwa/__init__.py` 가 ultralytics import 전에 `YOLO_OFFLINE=1` 을 설정해 익명 통계 전송·온라인 점검을 끈다 — ultralytics를 이 패키지 밖에서 먼저 import 하지 말 것. 모델 파일은 `assets/models/` 에 있어야 한다(오프라인이라 자동 다운로드 안 됨).
 
