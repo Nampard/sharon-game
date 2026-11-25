@@ -35,7 +35,7 @@ tools/dotnet.sh run --project tools/voicefx                  # NAudio(C#) 목소
 - 승리 버튼은 누른 사람을 알 수 없으므로 "보이는 생존자 중 bbox가 가장 큰 사람"을 승자로 본다.
 - 난이도 = 판정 기준(`DIFFICULTIES[d]["judge"]` → `JudgeParams`) + 술래 규칙(`["rules"]` → `Rules`: 구호 끊기·재확인·가속·RED 범위). 게임 로직은 `cfg.rules()` 를 매번 읽는다.
 - `render.py` 는 상태를 읽기만 한다. 색·도장·모서리 괄호 등 디자인 토큰은 파일 상단 주석 참고. 구호 가사 진행은 `audio.chant_timing()`(목소리별 말 시작·끝 + 선택적 글자 비중)으로 소리와 맞춘다. 술래 인형은 `doll.make_doll()` 이 고른다: `assets/images/doll/` 스프라이트 3장(back/front/front_red)이 있으면 `ImageDoll`(옅은 알파 제거·여백 자르기 후 전체를 가로로 눌러 돌아서는 연출), 없으면 코드로 그린 `Doll`. 방향은 `Doll.facing(state, since, now)`. 한글 폰트는 `assets/fonts/` → 시스템 폰트(맑은 고딕/Apple SD 고딕) 순으로 찾는다.
-- 목소리: `assets/voices/<이름>/` + 실행 폴더 `voices/<이름>/` 의 chant.wav (`audio.voice_dirs`). 게임은 GREEN마다 `prepare_chant(speed)` 를 불러 목소리(무작위 포함)와 길이를 정한다. `voices/` 는 지인 녹음이라 git 제외. 기계음 `assets/voices/*/chant.*` 도 macOS 음성 약관 때문에 git 제외(ADR-0007) — 새로 받은 저장소에는 목소리가 없을 수 있다.
+- 목소리: `assets/voices/<이름>/` + 실행 폴더 `voices/<이름>/` 의 chant.wav (`audio.voice_dirs`). 게임은 GREEN마다 `prepare_chant(speed)` 를 불러 목소리(무작위 포함)와 길이를 정한다. `voices/` 는 지인 녹음이라 git 제외. 기계음 `assets/voices/기계음/chant.*` 은 macOS 음성 약관 때문에 git 제외(ADR-0007). 기본 목소리 `assets/voices/소녀 메가폰/` 은 제작자 본인 녹음(변조)이라 저장소에 포함.
 - 에셋 접근은 반드시 `paths.asset()` 사용 (PyInstaller `sys._MEIPASS` 대응). 모델은 `assets/models/yolo11n-pose.pt`.
 
 ## 주의

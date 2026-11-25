@@ -1,7 +1,7 @@
 """사운드: 목소리별 구호(속도별 변형), 총소리, 효과음. 파일이 없으면 무음으로 동작한다.
 
 목소리 폴더 (ADR-0008):
-  assets/voices/<이름>/chant.wav   — 게임에 들어 있는 목소리 (기본: 기계음)
+  assets/voices/<이름>/chant.wav   — 게임에 들어 있는 목소리 (기본: 소녀 메가폰)
   voices/<이름>/chant.wav          — 실행 폴더 옆에 사용자가 추가하는 목소리 (exe 배포 후에도 추가 가능)
   chant.wav 대신 chant.ogg / chant.mp3 도 된다. 선택: voice.json {"name": "표시 이름", "weights": [글자 10개 비중]}
 """
@@ -89,7 +89,7 @@ def load_voice(folder: Path, speeds: list[float]) -> Voice:
 
 
 class Audio:
-    def __init__(self, speeds: list[float], voice: str = "기계음", rng: random.Random | None = None):
+    def __init__(self, speeds: list[float], voice: str = "소녀 메가폰", rng: random.Random | None = None):
         self.enabled = pygame.mixer.get_init() is not None
         self.speeds = speeds
         self.rng = rng or random.Random()

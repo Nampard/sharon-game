@@ -51,7 +51,7 @@ class GameConfig:
     smooth_frames: int = 3
 
     difficulty: str = "normal"
-    voice: str = "기계음"           # 목소리 폴더 이름 또는 "무작위" (audio.py)
+    voice: str = "소녀 메가폰"       # 목소리 폴더 이름 또는 "무작위" (audio.py)
     time_limit_s: float = 90.0
     countdown_s: float = 3.0
     chant_speeds: list[float] = field(default_factory=lambda: [0.7, 0.85, 1.0, 1.25, 1.5, 1.8, 2.2])
