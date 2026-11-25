@@ -76,3 +76,14 @@ def test_random_voice_changes_between_rounds(voices):
         a.prepare_chant(1.0)
         picked.add(a.current.name)
     assert picked == {"철수", "기계음"}
+
+
+def test_no_voices_runs_silently(tmp_path, monkeypatch):
+    """새로 받은 저장소처럼 목소리가 하나도 없어도 게임 진행에 필요한 값이 나온다."""
+    monkeypatch.setattr(audio_mod, "asset", lambda *p: tmp_path / "none" / "/".join(p))
+    monkeypatch.chdir(tmp_path)
+    a = Audio([1.0, 2.0], "기계음")
+    assert a.voices == {} and a.options == []
+    assert a.prepare_chant(2.0) == 1.5
+    a.play_chant(2.0)
+    assert a.chant_timing()[0] is None

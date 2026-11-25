@@ -12,3 +12,5 @@ voices/*
 !voices/README.md
 .DS_Store
 datasets/
+# macOS 내장 음성으로 만든 구호 — Apple 약관상 공개 배포가 불확실해 저장소에서 제외 (tools/make_sounds.py 로 생성)
+assets/voices/*/chant.*

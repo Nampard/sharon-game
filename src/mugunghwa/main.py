@@ -109,6 +109,8 @@ def main() -> None:
         status = camera.error or detector.error
         if status is None and not detector.ready:
             status = "인식 모델 불러오는 중..."
+        if status is None and audio.enabled and not audio.voices and game.state == TITLE:
+            status = "구호 목소리가 없습니다. voices 폴더에 녹음을 넣어 주세요 (voices/README.md)"
         if det is not None and not settings.open:
             frame = det.frame
         else:
