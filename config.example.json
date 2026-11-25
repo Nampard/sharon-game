@@ -1,0 +1,10 @@
+{
+  "camera_index": 0,
+  "difficulty": "normal",
+  "time_limit_s": 90,
+  "win_key": ["space", "return"],
+  "button_ends_game": true,
+  "device": null,
+  "fullscreen": false,
+  "debug": true
+}

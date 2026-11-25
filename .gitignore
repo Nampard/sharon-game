@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+config.json
+runs/
+# 지인 목소리 녹음 (개인 정보) — README만 공유
+voices/*
+!voices/README.md
+.DS_Store
+datasets/

@@ -1,0 +1,29 @@
+[project]
+name = "mugunghwa"
+version = "0.1.0"
+description = "웹캠 다인원 인식 '무궁화 꽃이 피었습니다' 게임"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "opencv-python>=4.9",
+    "pygame>=2.5",
+    "ultralytics>=8.3",
+    "lap>=0.5.12",  # ByteTrack 의존성 (없으면 실행 중 자동 설치를 시도함)
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+mugunghwa = "mugunghwa.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
